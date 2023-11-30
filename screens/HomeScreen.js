@@ -17,7 +17,7 @@
 
     // Expo barcode scanner content (Permission and scanning)
     const [hasPermission, setHasPermission] = useState(null);
-    const [scanned, setScanned] = useState(true);
+    const [scanned, setScanned] = useState(false);
 
     useEffect(() => {
       const getBarCodeScannerPermissions = async () => {
@@ -51,6 +51,7 @@
         <View>
           <BarCodeScanner
             onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+            // onBarCodeScanned={handleBarCodeScanned}
             style={styles.cameraContainer}
           />
           {scanned && (
