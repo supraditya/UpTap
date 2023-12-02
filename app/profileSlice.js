@@ -1,13 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { db } from "./firebase";
-import { getDocs, collection, query } from "firebase/firestore";
+import { getDocs, collection, query, onSnapshot } from "firebase/firestore";
 
 export const fetchData = createAsyncThunk('profile/fetchData', async () => {
-    const querySnapshot = await getDocs(query(collection(db, 'profile')))
-    const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))[0];
-    return data;
-  });
-  
+  const querySnapshot = await getDocs(query(collection(db, 'profile')))
+  const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))[0];
+  return data;
+});
 
 const profileSlice = createSlice({
   name: "profile",

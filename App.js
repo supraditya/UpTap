@@ -1,19 +1,32 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import HomeScreen from "./screens/HomeScreen";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Redux Toolkit imports
 import store from "./app/store";
 import { Provider } from "react-redux";
+import LoginScreen from "./screens/LoginScreen";
 
 export default function App() {
+  const Stack = createNativeStackNavigator();
+
   return (
     <Provider store={store}>
-      <View style={styles.container}>
+      {/* <View style={styles.container}>
         <Text>Open up App.js to start working on your app!</Text>
-        <HomeScreen></HomeScreen>
+        {/* <HomeScreen></HomeScreen> }
+        <LoginScreen></LoginScreen>
         <StatusBar style="auto" />
-      </View>
+      </View> */}
+      <NavigationContainer>
+      <Stack.Navigator initialRouteName='Login' 
+        screenOptions={{ headerShown: false }}>
+        <Stack.Screen name='Login' component={LoginScreen}/>
+        <Stack.Screen name='Home' component={HomeScreen}/>
+      </Stack.Navigator>
+    </NavigationContainer>
     </Provider>
   );
 }
