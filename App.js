@@ -16,7 +16,7 @@ export default function App() {
     <Provider store={store}>
       {/* <View style={styles.container}>
         <Text>Open up App.js to start working on your app!</Text>
-        {/* <HomeScreen></HomeScreen> }
+        <HomeScreen></HomeScreen> 
         <LoginScreen></LoginScreen>
         <StatusBar style="auto" />
       </View> */}

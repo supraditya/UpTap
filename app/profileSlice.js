@@ -14,6 +14,7 @@ const profileSlice = createSlice({
     data: {
       firstName: "John",
       lastName: "Doe",
+      qr_link:null,
     },
     status: "idle",
   },
