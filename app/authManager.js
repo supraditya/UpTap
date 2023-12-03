@@ -6,19 +6,9 @@ import {
     getReactNativePersistence,
     onAuthStateChanged
 } from 'firebase/auth';
-import { getApps, initializeApp } from 'firebase/app';
-import { firebaseConfig } from '../Secrets';
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage';
-import app from '../app/firebase'
+import app from './firebase'
 
-// let app, auth;
-// // this guards against initializing more than one "App"
-// const apps = getApps();
-// if (apps.length == 0) {
-//     app = initializeApp(firebaseConfig);
-// } else {
-//     app = apps[0];
-// }
 try {
     auth = initializeAuth(app, {
         persistence: getReactNativePersistence(ReactNativeAsyncStorage)
@@ -55,10 +45,10 @@ const subscribeToAuthChanges = (navigation) => {
 
     unsubscribeFromAuthChanges = onAuthStateChanged(auth, (user) => {
         if (user) {
-            console.log('signed in! user:', user);
+            // User sign in successful
             navigation.navigate('Home');
         } else {
-            console.log('user is signed out!');
+            // User sign out successful
             navigation.navigate('Login');
         }
     })

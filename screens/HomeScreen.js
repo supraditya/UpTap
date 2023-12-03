@@ -7,7 +7,7 @@ import { Button } from '@rneui/themed';
 import { getAuth } from 'firebase/auth';
 import { getApps, initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../Secrets';
-import { getAuthUser, signOut } from './AuthManager';
+import { getAuthUser, signOut } from '../app/authManager';
 import { subscribeToUserUpdates } from '../data/Actions';
 
 
@@ -16,22 +16,14 @@ function HomeScreen({ navigation }) {
   const { data, status, error } = useSelector((state) => state.profile);
   const users = useSelector(state => state.users);
   const currentAuthUser = getAuthUser();
-  console.log("currentAuthUser1");
-  console.log(currentAuthUser);
 
   useEffect(() => {
     dispatch(fetchData());
   }, [dispatch]);
 
-  // need to be added and taken from week 10 HomeScreen.js
-  // useEffect(() => {
-  //   dispatch(subscribeToUserUpdates());
-  // }, []);
-
   return (
     <View style={styles.container}>
       <Text>
-        {/* You're signed in, {currentAuthUser && currentAuthUser.basicInfo.firstName}! */}
         You're signed in, {currentAuthUser && currentAuthUser.email}!
       </Text>
 

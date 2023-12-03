@@ -1,15 +1,15 @@
 
 import { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, Alert } from 'react-native';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { getApps, initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+// import { getApps, initializeApp } from 'firebase/app';
 import { Button } from '@rneui/themed';
 import { useDispatch } from 'react-redux';
-import { firebaseConfig } from '../Secrets';
-import { signIn, signUp, subscribeToAuthChanges } from './AuthManager';
-import { addUser } from '../data/Actions';
+import { signIn, signUp, subscribeToAuthChanges } from '../app/authManager';
 import app from '../app/firebase';
-import { addUsers, loadUsers } from '../app/userSlice';
+import { addUsers } from '../app/userSlice';
+import { setDoc, doc } from 'firebase/firestore';
+import { db } from '../app/firebase';
 
 
 
