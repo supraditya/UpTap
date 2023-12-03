@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Alert, Button } from "react-native";
+import { StyleSheet, Text, View, Alert } from "react-native";
+import { Button } from "@rneui/themed";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../app/profileSlice";
 
@@ -77,7 +78,7 @@ const HomeScreen = () => {
         />
         {scanned && (
           <Button
-            title={"Tap to Scan Again"}
+            title="Tap to Scan Again"
             onPress={() => setScanned(false)}
           />
         )}
