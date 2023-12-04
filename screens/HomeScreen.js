@@ -45,7 +45,7 @@ const HomeScreen = () => {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <View style={{ alignItems: "center" }}>
         {data.qr_link && <QRCode value={data.qr_link} size={150} />}
       </View>
@@ -88,9 +88,17 @@ const HomeScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  container:{
+    flex: 1,
+    marginHorizontal: '5%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // borderWidth: 1,
+  },
   cameraContainer: {
     height: 250, // Adjust the height as needed
     width: 250, // Take the full width of the parent container
+
   },
 });
 
