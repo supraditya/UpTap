@@ -9,6 +9,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import store from "./app/store";
 import { Provider } from "react-redux";
 import LoginScreen from "./screens/LoginScreen";
+import QRScanScreen from "./screens/QRScanScreen";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -26,6 +27,7 @@ export default function App() {
         screenOptions={{ headerShown: false }}>
         <Stack.Screen name='Login' component={LoginScreen}/>
         <Stack.Screen name='PostLogin' component={PostLoginWrapper}/>
+        <Stack.Screen name='QRScan' component={QRScanScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
     </Provider>
