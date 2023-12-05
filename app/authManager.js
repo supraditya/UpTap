@@ -11,6 +11,8 @@ import {
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
 import app from "./firebase";
 
+let auth;
+
 try {
   auth = initializeAuth(app, {
     persistence: getReactNativePersistence(ReactNativeAsyncStorage),
@@ -44,15 +46,19 @@ const subscribeToAuthChanges = (navigation) => {
     unsubscribeFromAuthChanges();
   }
 
-  unsubscribeFromAuthChanges = onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // User sign in successful
-      navigation.navigate("Home");
-    } else {
-      // User sign out successful
-      navigation.navigate("Login");
-    }
-  });
+  try {
+    unsubscribeFromAuthChanges = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User sign in successful
+        navigation.navigate("PostLogin");
+      } else {
+        // User sign out successful
+        navigation.navigate("Login");
+      }
+    });
+  } catch (error) {
+    console.error("Error subscribing to auth changes:", error);
+  }
 };
 
 export { signIn, signOut, signUp, getAuthUser, subscribeToAuthChanges };

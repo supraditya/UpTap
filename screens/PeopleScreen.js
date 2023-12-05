@@ -9,7 +9,7 @@ import QRCode from "react-native-qrcode-svg";
 
 import { getAuthUser, signOut } from "../app/authManager";
 
-const HomeScreen = () => {
+const PeopleScreen = () => {
   // Redux content
   const dispatch = useDispatch();
   const currentAuthUser = getAuthUser();
@@ -102,4 +102,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default PeopleScreen;
