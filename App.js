@@ -1,6 +1,5 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-// import PeopleScreen from "./screens/PeopleScreen";
 import PostLoginWrapper from "./screens/PostLoginWrapper";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -16,12 +15,6 @@ export default function App() {
 
   return (
     <Provider store={store}>
-      {/* <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <HomeScreen></HomeScreen> 
-        <LoginScreen></LoginScreen>
-        <StatusBar style="auto" />
-      </View> */}
       <NavigationContainer>
       <Stack.Navigator initialRouteName='Login' 
         screenOptions={{ headerShown: false }}>

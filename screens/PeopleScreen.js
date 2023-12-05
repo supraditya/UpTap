@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Alert } from "react-native";
-import { Button } from "@rneui/themed";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchData } from "../app/profileSlice";
+// import { Button } from "@rneui/themed";
+// import { useDispatch, useSelector } from "react-redux";
+// import { fetchData } from "../app/profileSlice";
 
 import PeopleHome from "./PeopleHome";
 import QRScanScreen from "./QRScanScreen";
@@ -10,21 +10,11 @@ import QRScanScreen from "./QRScanScreen";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-// import { BarCodeScanner } from "expo-barcode-scanner";
 
-import { getAuthUser, signOut } from "../app/authManager";
 
 const PeopleScreen = ({navigation}) => {
   const Stack = createNativeStackNavigator();
 
-  // Redux content
-  // const dispatch = useDispatch();
-  // const currentAuthUser = getAuthUser();
-  // const { data, status, error } = useSelector((state) => state.profile);
-
-  // useEffect(() => {
-  //   dispatch(fetchData());
-  // }, [dispatch]);
 
   return (
     <NavigationContainer independent={true}>
