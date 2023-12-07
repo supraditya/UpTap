@@ -1,20 +1,27 @@
-import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
+
 
 import { useDispatch, useSelector } from "react-redux";
 import QRCode from "react-native-qrcode-svg";
 
+import { getAuthUser } from "../app/authManager";
+
 
 const MeScreen = () => {
-  const { data, status, error } = useSelector((state) => state.profile);
+  const currentAuthUser = getAuthUser();
+
+  const { userData, userStatus, userError } = useSelector(
+    (state) => state.user
+  );
   return (
     <View style={styles.container}>
-      <View style={{ alignItems: "center" }}>
-        {data.qr_link && <QRCode value={data.qr_link} size={150} />}
-      </View>
-      <Text style={{ fontSize: 30 }}>
-        {data.firstName} {data.lastName}
-      </Text>
-      <Text>Me Screen</Text>
+      {currentAuthUser &&
+        userData.my_cards_data_list.map((card) => {
+          return <TouchableOpacity key={card.id}>
+            <QRCode value={card.id} size={150} />
+            <Text>{card.firstName}</Text>
+          </TouchableOpacity>;
+        })}
     </View>
   );
 };

@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { fetchData } from "../app/profileSlice";
 import { fetchUserData } from "../app/userSlice";
 
 import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
@@ -11,13 +10,11 @@ import { getAuthUser, signOut } from "../app/authManager";
 const PeopleHome = ({ navigation }) => {
   const dispatch = useDispatch();
   const currentAuthUser = getAuthUser();
-  const { data, status, error } = useSelector((state) => state.profile);
   const { userData, userStatus, userError } = useSelector(
     (state) => state.user
   );
 
   useEffect(() => {
-    dispatch(fetchData());
     dispatch(fetchUserData());
   }, [dispatch]);
 
