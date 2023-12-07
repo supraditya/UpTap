@@ -7,7 +7,6 @@ import { getAuthUser } from "../app/authManager";
 export const fetchUserData = createAsyncThunk(
   "users/fetchUserData",
   async () => {
-
     const currentAuthUser = getAuthUser();
     const docRef1 = doc(db, "users", currentAuthUser.uid);
     const docSnapshot1 = await getDoc(docRef1);
@@ -24,14 +23,13 @@ export const fetchUserData = createAsyncThunk(
         const docSnapShot = await getDoc(docRef);
 
         if (docSnapShot.exists()) {
-          their_cards_data_list.push({id:card_id, ...docSnapShot.data() });
+          their_cards_data_list.push({ id: card_id, ...docSnapShot.data() });
         } else {
           // Handle the case where the document does not exist
           console.log(`Document with ID ${card_id} does not exist.`);
         }
       })
     );
-
 
     // Now process myCards
     let my_cards_data_list = [];
@@ -46,7 +44,7 @@ export const fetchUserData = createAsyncThunk(
         const docSnapShot = await getDoc(docRef);
 
         if (docSnapShot.exists()) {
-          my_cards_data_list.push({id:card_id, ...docSnapShot.data() });
+          my_cards_data_list.push({ id: card_id, ...docSnapShot.data() });
         } else {
           // Handle the case where the document does not exist
           console.log(`Document with ID ${card_id} does not exist.`);
@@ -89,15 +87,19 @@ const userSlice = createSlice({
       state.users = state.users.concat({ ...action.payload.users });
       state.userStatus = "succeeded";
     },
-    addUserTheirCards:(state, action)=>{
-      if(!state.userData.theirCards.includes(action.payload))
-      {
+    addUserTheirCards: (state, action) => {
+      if (!state.userData.theirCards.includes(action.payload)) {
         state.userData.theirCards.push(action.payload);
       }
     },
-    addUserTheirCardDataList:(state, action)=>{
-      state.userData.their_cards_data_list=[...state.userData.their_cards_data_list, action.payload]
-    }
+    addUserTheirCardDataList: (state, action) => {
+      if (!state.userData.their_cards_data_list.includes(action.payload)) {
+        state.userData.their_cards_data_list = [
+          ...state.userData.their_cards_data_list,
+          action.payload,
+        ];
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -115,6 +117,11 @@ const userSlice = createSlice({
   },
 });
 
-export const { loadUsers, addUsers, addUserTheirCards, addUserTheirCardDataList } = userSlice.actions;
+export const {
+  loadUsers,
+  addUsers,
+  addUserTheirCards,
+  addUserTheirCardDataList,
+} = userSlice.actions;
 
 export default userSlice.reducer;
