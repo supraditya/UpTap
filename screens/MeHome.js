@@ -7,6 +7,7 @@ import {
   Alert,
 } from "react-native";
 
+import { Button } from "@rneui/themed";
 import { useDispatch, useSelector } from "react-redux";
 import QRCode from "react-native-qrcode-svg";
 
@@ -26,10 +27,22 @@ const MeHome = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <Button
+        onPress={() =>
+          navigation.navigate("CardEditScreen", {
+            card: {},
+          })
+        }
+      >
+        <Text style={styles.editButtonText}>Create Card</Text>
+      </Button>
       {currentAuthUser &&
-        userData.my_cards_data_list.map((card) => {
+        userData.my_cards_data_list.map((card, index) => {
           return (
-            <View style={{...styles.myCard, backgroundColor: colorCalculate()}}>
+            <View
+              style={{ ...styles.myCard, backgroundColor: colorCalculate() }}
+              key={index}
+            >
               <TouchableOpacity
                 onPress={() => meCardPressHandler(card)}
                 key={card.id}
@@ -37,7 +50,7 @@ const MeHome = ({ navigation }) => {
                 <View>
                   {/* <Text style={{ fontSize: 32 }}>{card.nameOfCard}</Text> */}
                   <Text style={styles.cardTextHeaderStyle}>
-                    My {card.company} Card
+                    My {card.nameOfCard} Card
                   </Text>
                   {/* <Text style={styles.cardTextStyle}>Works at {card.company}</Text> */}
                 </View>
@@ -69,7 +82,7 @@ const styles = StyleSheet.create({
     // backgroundColor: colorCalculate(),
     flex: 0.2,
     borderRadius: 18,
-    marginVertical: '5%',
+    marginVertical: "5%",
     justifyContent: "center",
     alignItems: "center",
     width: "90%",

@@ -44,7 +44,7 @@ const MyCardScreen = ({ route, navigation }) => {
       >
         <Text style={styles.editButtonText}>Edit</Text>
       </TouchableOpacity>
-      <TouchableOpacity
+      {/* <TouchableOpacity
         onPress={() =>
           navigation.navigate("CardEditScreen", {
             card: {},
@@ -52,7 +52,7 @@ const MyCardScreen = ({ route, navigation }) => {
         }
       >
         <Text style={styles.editButtonText}>Create Card</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
     </View>
   );
 };

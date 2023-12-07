@@ -37,7 +37,7 @@ function CardEditScreen({ navigation, route }) {
     dispatch(addUserMyCards(newCard));
     dispatch(addUserMyCardDataList(newCard));
     await addDoc(collection(db, "cards"), newCard);
-    navigation.navigate('MyCardScreen');
+    navigation.goBack();
   }
   return (
     <View style={styles.container}>
