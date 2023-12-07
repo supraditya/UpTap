@@ -2,6 +2,7 @@ import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
 
 import { useDispatch, useSelector } from "react-redux";
 import QRCode from "react-native-qrcode-svg";
+import CardDetail from "../components/CardDetail";
 
 
 const MeScreen = () => {
@@ -12,8 +13,9 @@ const MeScreen = () => {
         {data.qr_link && <QRCode value={data.qr_link} size={150} />}
       </View>
       <Text style={{ fontSize: 30 }}>
-        {data.firstName} {data.lastName}
+        {/* {data.firstName} {data.lastName} */}
       </Text>
+      <CardDetail />
       <Text>Me Screen</Text>
     </View>
   );
