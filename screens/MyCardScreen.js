@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Alert, TouchableOpacity } from "react-native";
 import { useSelector } from "react-redux";
 import QRCode from "react-native-qrcode-svg";
 
+
 const MyCardScreen = ({ route, navigation }) => {
   const card = route.params.card;
   // console.log(card)
@@ -26,6 +27,7 @@ const MyCardScreen = ({ route, navigation }) => {
     </View>
   )
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -41,6 +43,21 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "blue",
     color: "white",
+  },
+  theirCard: {
+    backgroundColor: colorCalculate(),
+    flex: 0.5,
+    borderRadius: 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '90%'
+  },
+  cardTextStyle: {
+    fontSize: 20,
+  },
+  cardTextHeaderStyle: {
+    fontSize: 36,
   }
 });
+
 export default MyCardScreen;

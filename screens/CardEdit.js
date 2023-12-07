@@ -110,7 +110,7 @@ function CardEditScreen({ navigation, route }) {
               style={styles.textInput}
               placeholder='Card Name'
               value={cardNameInput}
-              onChangeText={text => setCompanyInput(text)}
+              onChangeText={text => setCardNameInput(text)}
             />
           </View>
         </View>
@@ -125,7 +125,7 @@ function CardEditScreen({ navigation, route }) {
               style={styles.textInput}
               placeholder='Email'
               value={emailInput}
-              onChangeText={text => setCompanyInput(text)}
+              onChangeText={text => setEmailInput(text)}
             />
           </View>
         </View>
