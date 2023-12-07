@@ -105,6 +105,14 @@ const userSlice = createSlice({
         ];
       }
     },
+    addUserMyCardDataList: (state, action) => {
+      if (!state.userData.my_cards_data_list.includes(action.payload)) {
+        state.userData.my_cards_data_list = [
+          ...state.userData.my_cards_data_list,
+          action.payload,
+        ];
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -128,6 +136,7 @@ export const {
   addUserTheirCards,
   addUserTheirCardDataList,
   addUserMyCards,
+  addUserMyCardDataList,
 } = userSlice.actions;
 
 export default userSlice.reducer;

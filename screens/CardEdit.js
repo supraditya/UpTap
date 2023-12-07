@@ -3,8 +3,9 @@ import { Icon, Input } from '@rneui/themed';
 import { useSelector, useDispatch } from 'react-redux';
 import CardDetail from '../components/CardDetail';
 import { useState } from 'react';
-import { doc, getDoc, setDoc, updateDoc, collection, query } from "firebase/firestore";
+import { doc, getDoc, setDoc, addDoc, updateDoc, collection, query } from "firebase/firestore";
 import {
+  addUserMyCardDataList,
   addUserMyCards,
   fetchUserData,
 } from "../app/userSlice";
@@ -16,29 +17,34 @@ function CardEditScreen({ navigation, route }) {
   const currentAuthUser = getAuthUser();
 
   const card = route.params.card;
-  let { firstName, lastName, email, nameOfCard } = card;
+  // let { firstName, lastName, email, nameOfCard } = card;
   const { userData, userStatus, userError } = useSelector(
     (state) => state.user
   );
-  const [firstNameInput, setFirstNameInput] = useState(firstName);
-  const [lastNameInput, setLastNameInput] = useState(lastName);
-  const [emailInput, setEmailInput] = useState(email);
-  const [cardNameInput, setCardNameInput] = useState(nameOfCard);
+  const [firstNameInput, setFirstNameInput] = useState(card.firstName || "");
+  const [lastNameInput, setLastNameInput] = useState(card.lastName || "");
+  const [emailInput, setEmailInput] = useState(card.email || "");
+  const [cardNameInput, setCardNameInput] = useState(card.nameOfCard || "");
+  const [isCreate, setIsCreate] = useState(!card.firstName)
   const updateCard = async (updatedCard) => {
-    dispatch(addUserMyCards(updatedCard));
+    // dispatch(addUserMyCards(updatedCard));
     await setDoc(doc(db, 'users', currentAuthUser.uid), updatedCard);
     navigation.navigate('MyCardScreen',
       { card: updatedCard }
     );
+  }
+  const addCard = async (newCard) => {
+    dispatch(addUserMyCards(newCard));
+    dispatch(addUserMyCardDataList(newCard));
+    await addDoc(collection(db, "cards"), newCard);
+    navigation.navigate('MyCardScreen');
   }
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headerLeft}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('MyCardScreen',
-              { card: card }
-            )}
+            onPress={() => navigation.goBack()}
           >
             <Text style={styles.headerText}>
               Back
@@ -51,20 +57,37 @@ function CardEditScreen({ navigation, route }) {
           </Text>
         </View>
         <View style={styles.headerRight}>
-          <TouchableOpacity
-            onPress={() => {
-              updateCard({
-                firstName: firstNameInput,
-                lastName: lastNameInput,
-                email: emailInput,
-                nameOfCard: cardNameInput,
-              })
-            }}
-          >
-            <Text style={[styles.headerText, styles.highlight]}>
-              Save
-            </Text>
-          </TouchableOpacity>
+          {isCreate ?
+            <TouchableOpacity
+              onPress={() => {
+                addCard({
+                  firstName: firstNameInput,
+                  lastName: lastNameInput,
+                  email: emailInput,
+                  nameOfCard: cardNameInput,
+                })
+              }}
+            >
+              <Text style={[styles.headerText, styles.highlight]}>
+                Create
+              </Text>
+            </TouchableOpacity>
+            :
+            <TouchableOpacity
+              onPress={() => {
+                updateCard({
+                  firstName: firstNameInput,
+                  lastName: lastNameInput,
+                  email: emailInput,
+                  nameOfCard: cardNameInput,
+                })
+              }}
+            >
+              <Text style={[styles.headerText, styles.highlight]}>
+                Save
+              </Text>
+            </TouchableOpacity>
+          }
         </View>
       </View>
 

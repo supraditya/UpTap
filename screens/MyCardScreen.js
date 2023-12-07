@@ -44,6 +44,15 @@ const MyCardScreen = ({ route, navigation }) => {
       >
         <Text style={styles.editButtonText}>Edit</Text>
       </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.navigate("CardEditScreen", {
+            card: {},
+          })
+        }
+      >
+        <Text style={styles.editButtonText}>Create Card</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -89,14 +98,14 @@ const styles = StyleSheet.create({
     borderRadius: 18,
   },
   editButtonText: {
-    fontSize: 28,
+    fontSize: 24,
     marginTop: 15,
   },
-  backButton:{
+  backButton: {
     width: '85%',
     // fontSize: 24,
   },
-  backButtonText:{
+  backButtonText: {
     fontSize: 24,
   }
 });
