@@ -1,37 +1,43 @@
-import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, Alert } from "react-native";
+// import { Button } from "@rneui/themed";
+// import { useDispatch, useSelector } from "react-redux";
+// import { fetchData } from "../app/profileSlice";
 
-import { useDispatch, useSelector } from "react-redux";
-import QRCode from "react-native-qrcode-svg";
-import CardDetail from "../components/CardDetail";
+import MeHome from "./MeHome";
+import MyCardScreen from "./MyCardScreen";
+
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
-const MeScreen = () => {
-  const { data, status, error } = useSelector((state) => state.profile);
+const PeopleScreen = ({ navigation }) => {
+  const Stack = createNativeStackNavigator();
+
+
   return (
-    <View style={styles.container}>
-      <View style={{ alignItems: "center" }}>
-        {data.qr_link && <QRCode value={data.qr_link} size={150} />}
-      </View>
-      <Text style={{ fontSize: 30 }}>
-        {/* {data.firstName} {data.lastName} */}
-      </Text>
-      <CardDetail />
-      <Text>Me Screen</Text>
-    </View>
+    <NavigationContainer independent={true}>
+      <Stack.Navigator initialRouteName='MeHome'
+        screenOptions={{ headerShown: false }}>
+        <Stack.Screen name='MeHome' component={MeHome} />
+        <Stack.Screen name='MyCardScreen' component={MyCardScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
+    marginHorizontal: "5%",
     justifyContent: "center",
+    alignItems: "center",
+    // borderWidth: 1,
   },
-  bodyContainer: {
-    flex: 0.5,
-    justifyContent: "center",
-    alignItems: "center",
+  cameraContainer: {
+    height: 250, // Adjust the height as needed
+    width: 250, // Take the full width of the parent container
   },
 });
-export default MeScreen;
+
+export default PeopleScreen;

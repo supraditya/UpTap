@@ -1,14 +1,31 @@
 import { useState, useEffect } from "react";
 
 import { View, Text, TextInput, StyleSheet, Alert } from "react-native";
+import { Button, Dialog } from "@rneui/themed";
 
 import { useDispatch, useSelector } from "react-redux";
 import { BarCodeScanner } from "expo-barcode-scanner";
 
-const QRScanScreen = ({navigation}) => {
-  const { data, status, error } = useSelector((state) => state.profile);
+import { addUserTheirCards, fetchUserData, addUserTheirCardDataList } from "../app/userSlice";
+
+import { db } from "../app/firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { getAuthUser } from "../app/authManager";
+
+const QRScanScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const currentAuthUser = getAuthUser();
+
+  const { userData, userStatus, userError } = useSelector(
+    (state) => state.user
+  );
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const [scanAgain, setScanAgain] = useState(false);
+  const [scannedCard, setScannedCard] = useState("");
+  const [scannedCardId, setScannedCardId] = useState("");
+
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
@@ -19,11 +36,42 @@ const QRScanScreen = ({navigation}) => {
     getBarCodeScannerPermissions();
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }) => {
-    setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
-    navigation.navigate("PeopleHome")
+  const updateuserData = async () => {
+    setVisible(false);
+    dispatch(addUserTheirCards(scannedCardId));
+    const {their_cards_data_list, my_cards_data_list, ...pruned_user_data}=userData;
+    pruned_user_data.theirCards=[...userData.theirCards, scannedCardId];
+    await setDoc(doc(db, "users", currentAuthUser.uid), pruned_user_data);
+    const docRef = doc(db, "cards", scannedCardId);
+    const docSnapShot = await getDoc(docRef);
+    dispatch(addUserTheirCardDataList({id:scannedCardId, ...docSnapShot.data()}));
+    navigation.navigate("PeopleHome");
 
+  };
+
+  const handleBarCodeScanned = async ({ type, data: card_id }) => {
+    setScanned(true);
+
+    if (card_id.includes("//")) {
+      alert("Invalid card ID. Try again with a valid QR from the UpTap App!");
+      setScanAgain(true);
+      return;
+    }
+    //data contains doc id of a card from the cards collection on firebase
+    const docRef = doc(db, "cards", card_id);
+
+    const docSnapshot = await getDoc(docRef);
+    if (docSnapshot.exists()) {
+      // alert(`Card identified: ${docSnapshot.data().nameOfCard}`);
+      setScannedCard(docSnapshot.data());
+      setScannedCardId(card_id);
+      setVisible(true);
+    } else {
+      // docSnap.data() will be undefined in this case
+      alert("Invalid card ID. Try again with a valid QR from the UpTap App!");
+      setScanAgain(true);
+      return;
+    }
   };
 
   if (hasPermission === null) {
@@ -36,11 +84,42 @@ const QRScanScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Text>QR Scan Screen</Text>
+      <Dialog isVisible={visible} onBackdropPress={() => setVisible(false)}>
+        {/* <Dialog.Title>
+          Card Identified
+        </Dialog.Title> */}
+        <Text>
+          Card Identified! {scannedCard.nameOfCard} from {scannedCard.firstName}
+        </Text>
+        <Text>Do you want to add this card?</Text>
+        <Dialog.Button
+          onPress={updateuserData}
+        >
+          Yes
+        </Dialog.Button>
+        <Dialog.Button
+          onPress={() => {
+            setVisible(false);
+            setScanAgain(true);
+          }}
+        >
+          No
+        </Dialog.Button>
+      </Dialog>
       <BarCodeScanner
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-        // onBarCodeScanned={handleBarCodeScanned}
         style={styles.cameraContainer}
       />
+      {scanAgain && (
+        <Button
+          onPress={() => {
+            setScanned(false);
+            setScanAgain(false);
+          }}
+        >
+          Scan Again
+        </Button>
+      )}
     </View>
   );
 };

@@ -11,7 +11,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
-
 const PeopleScreen = ({navigation}) => {
   const Stack = createNativeStackNavigator();
 

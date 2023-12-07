@@ -1,66 +1,120 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { db } from "./firebase";
-import { getDocs, collection, query } from "firebase/firestore";
+import { doc, getDoc, getDocs, collection, query } from "firebase/firestore";
 import { useDispatch } from "react-redux";
+import { getAuthUser } from "../app/authManager";
 
-export const fetchData = createAsyncThunk("users/fetchData", async () => {
-  const querySnapshot = await getDocs(query(collection(db, "users")));
-  const data = querySnapshot.docs.map((doc) => ({
-    id: doc.id,
-    ...doc.data(),
-  }))[0];
-  return data;
-});
+export const fetchUserData = createAsyncThunk(
+  "users/fetchUserData",
+  async () => {
+
+    const currentAuthUser = getAuthUser();
+    const docRef1 = doc(db, "users", currentAuthUser.uid);
+    const docSnapshot1 = await getDoc(docRef1);
+
+    let their_cards_data_list = [];
+
+    // Assuming docSnapshot1.data().theirCards is an array of card IDs
+    const theirCardIds = docSnapshot1.data().theirCards;
+
+    // Use Promise.all to wait for all async operations to complete
+    await Promise.all(
+      theirCardIds.map(async (card_id) => {
+        const docRef = doc(db, "cards", card_id);
+        const docSnapShot = await getDoc(docRef);
+
+        if (docSnapShot.exists()) {
+          their_cards_data_list.push({id:card_id, ...docSnapShot.data() });
+        } else {
+          // Handle the case where the document does not exist
+          console.log(`Document with ID ${card_id} does not exist.`);
+        }
+      })
+    );
+
+
+    // Now process myCards
+    let my_cards_data_list = [];
+
+    // Assuming docSnapshot1.data().myCards is an array of card IDs
+    const myCardIds = docSnapshot1.data().myCards;
+
+    // Use Promise.all to wait for all async operations to complete
+    await Promise.all(
+      myCardIds.map(async (card_id) => {
+        const docRef = doc(db, "cards", card_id);
+        const docSnapShot = await getDoc(docRef);
+
+        if (docSnapShot.exists()) {
+          my_cards_data_list.push({id:card_id, ...docSnapShot.data() });
+        } else {
+          // Handle the case where the document does not exist
+          console.log(`Document with ID ${card_id} does not exist.`);
+        }
+      })
+    );
+
+    return {
+      ...docSnapshot1.data(),
+      their_cards_data_list: their_cards_data_list,
+      my_cards_data_list: my_cards_data_list,
+    };
+  }
+);
 
 const userSlice = createSlice({
-  name: "profile",
+  name: "user",
   initialState: {
-    data: {
-      basicInfo: {
-        bio: "",
-        firstName: "",
-        lastName: "",
-        links: [],
-      },
-      has_group: "",
-      id: "",
+    userData: {
+      displayName: "",
+      email: "",
       myCards: [],
-      profilePic: "",
       theirCards: [],
+      their_cards_data_list: [],
+      my_cards_data_list: [],
     },
-    status: "idle",
+    userStatus: "idle",
   },
   reducers: {
     loadUsers: (state, action) => {
-      state.data = { ...action.payload };
+      state.userData = { ...action.payload };
       // taken from week 10 Reducer.js
       state.users = { ...action.payload.users };
-      state.status = "succeeded";
+      state.userStatus = "succeeded";
     },
 
     addUsers: (state, action) => {
-      state.data = { ...action.payload };
+      state.userData = { ...action.payload };
       // taken from week 10 Reducer.js
       state.users = state.users.concat({ ...action.payload.users });
-      state.status = "succeeded";
+      state.userStatus = "succeeded";
     },
+    addUserTheirCards:(state, action)=>{
+      if(!state.userData.theirCards.includes(action.payload))
+      {
+        state.userData.theirCards.push(action.payload);
+      }
+    },
+    addUserTheirCardDataList:(state, action)=>{
+      state.userData.their_cards_data_list=[...state.userData.their_cards_data_list, action.payload]
+    }
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchData.pending, (state) => {
-        state.status = "loading";
+      .addCase(fetchUserData.pending, (state) => {
+        state.userStatus = "loading";
       })
-      .addCase(fetchData.fulfilled, (state, action) => {
-        state.data = { ...action.payload };
-        state.status = "succeeded";
+      .addCase(fetchUserData.fulfilled, (state, action) => {
+        state.userData = { ...action.payload };
+        state.userStatus = "succeeded";
       })
-      .addCase(fetchData.rejected, (state, action) => {
-        state.status = "failed";
-        state.error = action.error.message;
+      .addCase(fetchUserData.rejected, (state, action) => {
+        state.userStatus = "failed";
+        state.userError = action.error.message;
       });
   },
 });
 
-export const { loadUsers, addUsers } = userSlice.actions;
+export const { loadUsers, addUsers, addUserTheirCards, addUserTheirCardDataList } = userSlice.actions;
 
 export default userSlice.reducer;
