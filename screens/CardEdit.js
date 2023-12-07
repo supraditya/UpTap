@@ -8,6 +8,7 @@ import {
   addUserMyCards,
   fetchUserData,
 } from "../app/userSlice";
+import { db } from "../app/firebase";
 import { getAuthUser } from "../app/authManager";
 
 function CardEditScreen({ navigation, route }) {
@@ -26,6 +27,9 @@ function CardEditScreen({ navigation, route }) {
   const updateCard = async (updatedCard) => {
     dispatch(addUserMyCards(updatedCard));
     await setDoc(doc(db, 'users', currentAuthUser.uid), updatedCard);
+    navigation.navigate('MyCardScreen',
+      { card: updatedCard }
+    );
   }
   return (
     <View style={styles.container}>
@@ -49,9 +53,6 @@ function CardEditScreen({ navigation, route }) {
         <View style={styles.headerRight}>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate('MyCardScreen',
-                { card: card }
-              );
               updateCard({
                 firstName: firstNameInput,
                 lastName: lastNameInput,
