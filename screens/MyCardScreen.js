@@ -5,24 +5,24 @@ import QRCode from "react-native-qrcode-svg";
 
 const MyCardScreen = ({ route, navigation }) => {
   const card = route.params.card;
+  // console.log(card)
   return (
     <View style={styles.container}>
       <QRCode value={card.id} size={150} />
       <Text>{card.nameOfCard}</Text>
       <Text>{card.firstName}</Text>
-      <View>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('CardEditScreen',
-            {
-              cardID: card.id
-            }
-          )}
-        >
-          <Text>
-            Edit
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('CardEditScreen',
+          {
+            card: card
+          }
+        )}
+      >
+        <Text>
+          Edit
+        </Text>
+      </TouchableOpacity>
+
     </View>
   )
 }
