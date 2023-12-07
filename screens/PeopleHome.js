@@ -21,6 +21,20 @@ const PeopleHome = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Button onPress={()=>navigation.navigate("QRScan")}>Scan QR Code</Button>
+      <Text style={{margin: 14,}}>You're signed in, {currentAuthUser && currentAuthUser.email}!</Text>
+      <Text style={styles.headerText}>Your contacts:</Text>
+      <Button
+        onPress={async () => {
+          try {
+            await signOut();
+            navigation.navigate("Login", {screen: 'Login'});
+          } catch (error) {
+            Alert.alert("Sign In Error", error.message, [{ text: "OK" }]);
+          }
+        }}
+      >
+        Sign out!
+      </Button>
     </View>
   );
 };
