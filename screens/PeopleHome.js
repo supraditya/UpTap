@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     width: '70%',
     backgroundColor: "#F7C6C8",
     padding: '5%',
-    borderRadius: '15',
+    borderRadius: 15,
     margin: 14,
   },
   cardText: {
