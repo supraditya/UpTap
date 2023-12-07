@@ -11,17 +11,15 @@ function CardEditScreen({ navigation, route }) {
     return state.cards.find(elem => elem.id === cards.id)
   });
 
-  let { firstName, lastName, company,
-    phone, email, address, groups: contactGroups } = contact;
+  let { firstName, lastName, email, nameOfCard } = cards;
 
   const [firstNameInput, setFirstNameInput] = useState(firstName);
   const [lastNameInput, setLastNameInput] = useState(lastName);
-  const [bioInput, setBioInput] = useState(bio);
+  const [emailInput, setEmailInput] = useState(email);
+  const [cardNameInput, setCardNameInput] = useState(nameOfCard);
 
-  const [phoneList, setPhoneList] = useState(phone);
-  const [emailList, setEmailList] = useState(email);
 
-  console.log('just got phone list:', phoneList);
+  console.log(card);
 
   return (
 
@@ -32,14 +30,14 @@ function CardEditScreen({ navigation, route }) {
       <View style={styles.header}>
         <View style={styles.headerLeft}>
           <TouchableOpacity
-            onPress={() => navigation.navigate('ContactDetails',
+            onPress={() => navigation.navigate('MyCardScreen',
               {
-                contactID: contactID
+                cardID: card.id
               }
             )}
           >
             <Text style={[styles.headerText, styles.highlight]}>
-              &lt; Back
+              Back
             </Text>
           </TouchableOpacity>
         </View>
@@ -221,16 +219,16 @@ function CardEditScreen({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-  ...generalStyles,
+
   container: {
-    ...generalStyles.container,
+
     alignItems: 'center'
   },
   entryWithLabel: {
-    ...generalStyles.entryWithLabel,
+
     padding: '1%'
   }
 
 });
 
-export default ContactEditScreen;
+export default CardEditScreen;

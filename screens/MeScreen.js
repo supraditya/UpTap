@@ -6,6 +6,7 @@ import { StyleSheet, Text, View, Alert } from "react-native";
 
 import MeHome from "./MeHome";
 import MyCardScreen from "./MyCardScreen";
+import CardEdit from "./CardEdit";
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -21,6 +22,7 @@ const PeopleScreen = ({ navigation }) => {
         screenOptions={{ headerShown: false }}>
         <Stack.Screen name='MeHome' component={MeHome} />
         <Stack.Screen name='MyCardScreen' component={MyCardScreen} />
+        <Stack.Screen name='CardEditScreen' component={CardEdit} />
       </Stack.Navigator>
     </NavigationContainer>
   );
