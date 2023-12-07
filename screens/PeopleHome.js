@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
 import { fetchUserData } from "../app/userSlice";
 
-import { View, Text, Image, TextInput, StyleSheet, Alert } from "react-native";
+import { View, Text, Image, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { Button } from "@rneui/themed";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthUser, signOut } from "../app/authManager";
+
+// import TheirCardScreen from "./TheirCardScreen";
+export const colorCalculate = () => {
+  const colorHex = ((Math.random() * 0xfffff * 1000000).toString(16)).slice(0, 6);
+  return '#' + colorHex;
+}
 
 const PeopleHome = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -17,15 +23,19 @@ const PeopleHome = ({ navigation }) => {
 
   const imgPaths = ['../assets/cardAvatar0.png', '../assets/cardAvatar1.png', '../assets/cardAvatar2.png']
 
-  const colorCalculate = () => {
-    const colorHex = ((Math.random() * 0xfffff * 1000000).toString(16)).slice(0, 6);
-    return '#' + colorHex;
-  }
+  // const colorCalculate = () => {
+  //   const colorHex = ((Math.random() * 0xfffff * 1000000).toString(16)).slice(0, 6);
+  //   return '#' + colorHex;
+  // }
 
   const pathCalculate = (index) => {
     console.log("yolo-----------------2222");
     console.log(`../assets/cardAvatar${index.toString()}.png`);
     return `../assets/cardAvatar${index.toString()}.png`;
+  }
+
+  const theirCardViewHandler=(card)=>{
+    navigation.navigate("TheirCardScreen", {card: card});
   }
 
   useEffect(() => {
@@ -47,7 +57,7 @@ const PeopleHome = ({ navigation }) => {
       </Text>
       {currentAuthUser &&
         userData.their_cards_data_list.map((card, index) => (
-          <View key={card.id} style={[styles.cardContainer, { backgroundColor: colorCalculate() }]}>
+          <TouchableOpacity onPress={()=>theirCardViewHandler(card)} key={card.id} style={[styles.cardContainer, { backgroundColor: colorCalculate() }]}>
             <View>
               <Image style={styles.cardAvatar} source={require('../assets/cardAvatar0.png')}></Image>
             </View>
@@ -56,7 +66,7 @@ const PeopleHome = ({ navigation }) => {
               <Text>{card.email}</Text>
               <Text>{card.company}</Text>
             </View>
-          </View>
+          </TouchableOpacity>
 
         ))}
       <Button
