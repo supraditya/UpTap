@@ -84,6 +84,8 @@ function SignupBox({ navigation }) {
       userToAdd = {
         displayName: user.displayName,
         email: user.email,
+        theirCards: [],
+        myCards: [],
         // key: user.uid,
       };
       await setDoc(doc(db, "users", user.uid), userToAdd);
