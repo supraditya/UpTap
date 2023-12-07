@@ -95,7 +95,7 @@ const QRScanScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text>QR Scan Screen</Text>
+      <Text style={styles.caption}>Scan an UpTap QR Code!</Text>
       <Dialog isVisible={visible} onBackdropPress={() => setVisible(false)}>
         {/* <Dialog.Title>
           Card Identified
@@ -145,8 +145,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   cameraContainer: {
-    height: 250, // Adjust the height as needed
-    width: 250, // Take the full width of the parent container
+    height: '60%', // Adjust the height as needed
+    width: '60%', // Take the full width of the parent container
+  },
+  caption:{
+    fontSize: 24,
+    marginBottom: 10,
   },
 });
 export default QRScanScreen;

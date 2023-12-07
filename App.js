@@ -3,6 +3,10 @@ import { StyleSheet, Text, View } from "react-native";
 import PostLoginWrapper from "./screens/PostLoginWrapper";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { LogBox } from 'react-native';
+LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();//Ignore all log notifications
+
 
 // Redux Toolkit imports
 import store from "./app/store";

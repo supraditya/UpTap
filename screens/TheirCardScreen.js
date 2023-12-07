@@ -15,6 +15,7 @@ const TheirCardScreen = ({ route, navigation }) => {
   const card = route.params.card;
   return (
     <View style={styles.container}>
+        <TouchableOpacity onPress={()=>{navigation.goBack()}} style={styles.backButton}><Text style={styles.backButtonText}>Back</Text></TouchableOpacity>
       <View style={styles.theirCard}>
         <Text style={styles.cardTextHeaderStyle}>
           {card.firstName} {card.lastName}
@@ -68,5 +69,12 @@ const styles = StyleSheet.create({
   cardTextHeaderStyle: {
     fontSize: 36,
   },
+  backButton:{
+    width: '85%',
+    // fontSize: 24,
+  },
+  backButtonText:{
+    fontSize: 24,
+  }
 });
 export default TheirCardScreen;
