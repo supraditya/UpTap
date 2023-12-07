@@ -1,19 +1,32 @@
 import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Icon, Input } from '@rneui/themed';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import CardDetail from '../components/CardDetail';
 import { useState } from 'react';
+import { doc, getDoc, setDoc, updateDoc, collection, query } from "firebase/firestore";
+import {
+  addUserMyCards,
+  fetchUserData,
+} from "../app/userSlice";
+import { getAuthUser } from "../app/authManager";
 
 function CardEditScreen({ navigation, route }) {
-  const card = route.params.card;
-  console.log(card)
-  let { firstName, lastName, email, nameOfCard } = card;
+  const dispatch = useDispatch();
+  const currentAuthUser = getAuthUser();
 
+  const card = route.params.card;
+  let { firstName, lastName, email, nameOfCard } = card;
+  const { userData, userStatus, userError } = useSelector(
+    (state) => state.user
+  );
   const [firstNameInput, setFirstNameInput] = useState(firstName);
   const [lastNameInput, setLastNameInput] = useState(lastName);
   const [emailInput, setEmailInput] = useState(email);
   const [cardNameInput, setCardNameInput] = useState(nameOfCard);
-
+  const updateCard = async (updatedCard) => {
+    dispatch(addUserMyCards(updatedCard));
+    await setDoc(doc(db, 'users', currentAuthUser.uid), updatedCard);
+  }
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -36,10 +49,15 @@ function CardEditScreen({ navigation, route }) {
         <View style={styles.headerRight}>
           <TouchableOpacity
             onPress={() => {
-              // save this card then navigate back
               navigation.navigate('MyCardScreen',
                 { card: card }
-              )
+              );
+              updateCard({
+                firstName: firstNameInput,
+                lastName: lastNameInput,
+                email: emailInput,
+                nameOfCard: cardNameInput,
+              })
             }}
           >
             <Text style={[styles.headerText, styles.highlight]}>
