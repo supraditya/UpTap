@@ -27,9 +27,6 @@ const PeopleHome = ({ navigation }) => {
         You're signed in, {currentAuthUser && currentAuthUser.email}!
       </Text>
 
-      <Text style={styles.headerText}>
-        Your contacts: {currentAuthUser && userData.theirCards}
-      </Text>
       {currentAuthUser &&
         userData.their_cards_data_list.map((card) => (
           <Text key={card.id}>{card.firstName}</Text>

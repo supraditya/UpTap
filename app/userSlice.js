@@ -12,7 +12,6 @@ export const fetchUserData = createAsyncThunk(
     const docRef1 = doc(db, "users", currentAuthUser.uid);
     const docSnapshot1 = await getDoc(docRef1);
 
-
     let their_cards_data_list = [];
 
     // Assuming docSnapshot1.data().theirCards is an array of card IDs
@@ -90,6 +89,15 @@ const userSlice = createSlice({
       state.users = state.users.concat({ ...action.payload.users });
       state.userStatus = "succeeded";
     },
+    addUserTheirCards:(state, action)=>{
+      if(!state.userData.theirCards.includes(action.payload))
+      {
+        state.userData.theirCards.push(action.payload);
+      }
+    },
+    addUserTheirCardDataList:(state, action)=>{
+      state.userData.their_cards_data_list=[...state.userData.their_cards_data_list, action.payload]
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -107,6 +115,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { loadUsers, addUsers } = userSlice.actions;
+export const { loadUsers, addUsers, addUserTheirCards, addUserTheirCardDataList } = userSlice.actions;
 
 export default userSlice.reducer;
