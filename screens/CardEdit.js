@@ -16,14 +16,14 @@ function CardEditScreen({ navigation, route }) {
 
   return (
     <View style={styles.container}>
-      <View>
-        <View>
+      <View style={styles.header}>
+        <View style={styles.headerLeft}>
           <TouchableOpacity
             onPress={() => navigation.navigate('MyCardScreen',
               { card: card }
             )}
           >
-            <Text style={[styles.headerText, styles.highlight]}>
+            <Text style={styles.headerText}>
               Back
             </Text>
           </TouchableOpacity>
@@ -49,16 +49,7 @@ function CardEditScreen({ navigation, route }) {
         </View>
       </View>
 
-      {/* **** BODY **** */}
-
       <ScrollView style={styles.body}>
-
-        {/* *** BASIC INFO *** */}
-        <View style={styles.entryWithLabel}>
-          <View>
-            <Text style={styles.listItemText}>Basic Info</Text>
-          </View>
-        </View>
 
         <View style={styles.entryWithLabel}>
           <View>
@@ -125,16 +116,48 @@ function CardEditScreen({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-
   container: {
-
-    alignItems: 'center'
+    flex: 1,
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  body: {
+    flex: 0.85,
+    backgroundColor: 'white',
+    width: '100%',
+    padding: '5%',
   },
   entryWithLabel: {
-
-    padding: '1%'
-  }
-
+    padding: '2%'
+  },
+  header: {
+    flex: 0.15,
+    flexDirection: 'row',
+    backgroundColor: 'lightblue',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
+    width: '100%',
+    padding: '5%'
+  },
+  headerLeft: {
+    flex: 0.3,
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+  },
+  headerCenter: {
+    flex: 0.4,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  headerRight: {
+    flex: 0.3,
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+  },
+  headerText: {
+    fontSize: 20
+  },
 });
 
 export default CardEditScreen;
