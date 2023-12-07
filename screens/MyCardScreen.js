@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Alert } from "react-native";
 
-import { UseSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import QRCode from "react-native-qrcode-svg";
 
 const MyCardScreen=({route, navigation})=>{
