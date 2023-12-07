@@ -1,11 +1,5 @@
-<<<<<<< HEAD
-import { useEffect } from "react";
-import { fetchData } from "../app/profileSlice";
-import { fetchCardData } from "../app/cardsSlice";
-=======
 import { useEffect, useState } from "react";
 import { fetchUserData } from "../app/userSlice";
->>>>>>> origin
 
 import { View, Text, Image, TextInput, StyleSheet, Alert } from "react-native";
 import { Button } from "@rneui/themed";
