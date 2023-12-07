@@ -7,15 +7,15 @@ import QRCode from "react-native-qrcode-svg";
 import { getAuthUser } from "../app/authManager";
 
 
-const MeHome = ({navigation}) => {
+const MeHome = ({ navigation }) => {
   const currentAuthUser = getAuthUser();
 
   const { userData, userStatus, userError } = useSelector(
     (state) => state.user
   );
 
-  const meCardPressHandler=(card)=>{
-    navigation.navigate("MyCardScreen", {card:card})
+  const meCardPressHandler = (card) => {
+    navigation.navigate("MyCardScreen", { card: card })
   }
 
 
@@ -23,10 +23,10 @@ const MeHome = ({navigation}) => {
     <View style={styles.container}>
       {currentAuthUser &&
         userData.my_cards_data_list.map((card) => {
-          return <TouchableOpacity onPress={()=>meCardPressHandler(card)} key={card.id}>
+          return <TouchableOpacity onPress={() => meCardPressHandler(card)} key={card.id}>
             {/* <QRCode value={card.id} size={150} /> */}
-            <Text style={{fontSize:32}}>{card.nameOfCard}</Text>
-            <Text style={{fontSize:16}}>{card.firstName}</Text>
+            <Text style={{ fontSize: 32 }}>{card.nameOfCard}</Text>
+            <Text style={{ fontSize: 16 }}>{card.firstName}</Text>
           </TouchableOpacity>;
         })}
     </View>
