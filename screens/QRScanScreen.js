@@ -6,14 +6,24 @@ import { Button, Dialog } from "@rneui/themed";
 import { useDispatch, useSelector } from "react-redux";
 import { BarCodeScanner } from "expo-barcode-scanner";
 
+import { addUserTheirCards, fetchUserData, addUserTheirCardDataList } from "../app/userSlice";
+
 import { db } from "../app/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { getAuthUser } from "../app/authManager";
 
 const QRScanScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
+  const currentAuthUser = getAuthUser();
+
+  const { userData, userStatus, userError } = useSelector(
+    (state) => state.user
+  );
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [scanAgain, setScanAgain] = useState(false);
   const [scannedCard, setScannedCard] = useState("");
+  const [scannedCardId, setScannedCardId] = useState("");
 
   const [visible, setVisible] = useState(false);
 
@@ -25,6 +35,19 @@ const QRScanScreen = ({ navigation }) => {
 
     getBarCodeScannerPermissions();
   }, []);
+
+  const updateuserData = async () => {
+    setVisible(false);
+    dispatch(addUserTheirCards(scannedCardId));
+    const {their_cards_data_list, my_cards_data_list, ...pruned_user_data}=userData;
+    pruned_user_data.theirCards=[...userData.theirCards, scannedCardId];
+    await setDoc(doc(db, "users", currentAuthUser.uid), pruned_user_data);
+    const docRef = doc(db, "cards", scannedCardId);
+    const docSnapShot = await getDoc(docRef);
+    dispatch(addUserTheirCardDataList({id:scannedCardId, ...docSnapShot.data()}));
+    navigation.navigate("PeopleHome");
+
+  };
 
   const handleBarCodeScanned = async ({ type, data: card_id }) => {
     setScanned(true);
@@ -41,6 +64,7 @@ const QRScanScreen = ({ navigation }) => {
     if (docSnapshot.exists()) {
       // alert(`Card identified: ${docSnapshot.data().nameOfCard}`);
       setScannedCard(docSnapshot.data());
+      setScannedCardId(card_id);
       setVisible(true);
     } else {
       // docSnap.data() will be undefined in this case
@@ -61,15 +85,15 @@ const QRScanScreen = ({ navigation }) => {
     <View style={styles.container}>
       <Text>QR Scan Screen</Text>
       <Dialog isVisible={visible} onBackdropPress={() => setVisible(false)}>
-        <Dialog.Title>
-          Card Identified: {scannedCard.nameOfCard} from {scannedCard.firstName}
-        </Dialog.Title>
+        {/* <Dialog.Title>
+          Card Identified
+        </Dialog.Title> */}
+        <Text>
+          Card Identified! {scannedCard.nameOfCard} from {scannedCard.firstName}
+        </Text>
         <Text>Do you want to add this card?</Text>
         <Dialog.Button
-          onPress={() => {
-            setVisible(false);
-            navigation.navigate("PeopleHome");
-          }}
+          onPress={updateuserData}
         >
           Yes
         </Dialog.Button>
