@@ -4,46 +4,75 @@ import { doc, getDoc, getDocs, collection, query } from "firebase/firestore";
 import { useDispatch } from "react-redux";
 import { getAuthUser } from "../app/authManager";
 
-export const fetchUserData = createAsyncThunk("users/fetchUserData", async () => {
-  // const querySnapshot = await getDocs(query(collection(db, "users")));
-  // const data = querySnapshot.docs.map((doc) => ({
-  //   id: doc.id,
-  //   ...doc.data(),
-  // }))[0];
-  // return data;
-  console.log("--------------yolo111");
-  const currentAuthUser = getAuthUser();
-  console.log("--------------yolo222");
-  console.log(currentAuthUser.uid);
-  const docRef = doc(db, "users", currentAuthUser.uid);
-  
-  console.log("--------------yolo333");
-  const docSnapshot = await getDoc(docRef);
-  
-  console.log("--------------yolo");
-  console.log(docSnapshot.data());
-  return docSnapshot.data();
-});
+export const fetchUserData = createAsyncThunk(
+  "users/fetchUserData",
+  async () => {
+
+    const currentAuthUser = getAuthUser();
+    const docRef1 = doc(db, "users", currentAuthUser.uid);
+    const docSnapshot1 = await getDoc(docRef1);
+
+
+    let their_cards_data_list = [];
+
+    // Assuming docSnapshot1.data().theirCards is an array of card IDs
+    const theirCardIds = docSnapshot1.data().theirCards;
+
+    // Use Promise.all to wait for all async operations to complete
+    await Promise.all(
+      theirCardIds.map(async (card_id) => {
+        const docRef = doc(db, "cards", card_id);
+        const docSnapShot = await getDoc(docRef);
+
+        if (docSnapShot.exists()) {
+          their_cards_data_list.push({id:card_id, ...docSnapShot.data() });
+        } else {
+          // Handle the case where the document does not exist
+          console.log(`Document with ID ${card_id} does not exist.`);
+        }
+      })
+    );
+
+
+    // Now process myCards
+    let my_cards_data_list = [];
+
+    // Assuming docSnapshot1.data().myCards is an array of card IDs
+    const myCardIds = docSnapshot1.data().myCards;
+
+    // Use Promise.all to wait for all async operations to complete
+    await Promise.all(
+      myCardIds.map(async (card_id) => {
+        const docRef = doc(db, "cards", card_id);
+        const docSnapShot = await getDoc(docRef);
+
+        if (docSnapShot.exists()) {
+          my_cards_data_list.push({id:card_id, ...docSnapShot.data() });
+        } else {
+          // Handle the case where the document does not exist
+          console.log(`Document with ID ${card_id} does not exist.`);
+        }
+      })
+    );
+
+    return {
+      ...docSnapshot1.data(),
+      their_cards_data_list: their_cards_data_list,
+      my_cards_data_list: my_cards_data_list,
+    };
+  }
+);
 
 const userSlice = createSlice({
   name: "user",
   initialState: {
     userData: {
-      // basicInfo: {
-      //   bio: "",
-      //   firstName: "",
-      //   lastName: "",
-      //   links: [],
-      // },
-      // has_group: "",
-      // id: "",
-      // myCards: [],
-      // profilePic: "",
-      // theirCards: [],
       displayName: "",
       email: "",
       myCards: [],
       theirCards: [],
+      their_cards_data_list: [],
+      my_cards_data_list: [],
     },
     userStatus: "idle",
   },
