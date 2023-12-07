@@ -34,10 +34,6 @@ const PeopleHome = ({ navigation }) => {
         userData.their_cards_data_list.map((card) => (
           <Text key={card.id}>{card.firstName}</Text>
         ))}
-      {currentAuthUser &&
-        userData.my_cards_data_list.map((card) => {
-          return <Text key={card.id}>{card.firstName}</Text>;
-        })}
       <Button
         onPress={async () => {
           try {
