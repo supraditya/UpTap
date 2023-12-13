@@ -101,6 +101,9 @@ const userSlice = createSlice({
         ];
       }
     },
+    setUserstatus: (state, action) => {
+      state.userStatus = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -119,6 +122,7 @@ const userSlice = createSlice({
 });
 
 export const {
+  setUserstatus,
   addUserTheirCards,
   addUserTheirCardDataList,
   addUserMyCards,

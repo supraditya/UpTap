@@ -35,7 +35,7 @@ const MeHome = ({ navigation }) => {
       >
         <Text style={styles.editButtonText}>Create Card</Text>
       </Button>
-      {currentAuthUser &&
+      {currentAuthUser && userStatus==='succeeded' &&
         userData.my_cards_data_list.map((card, index) => {
           return (
             <TouchableOpacity

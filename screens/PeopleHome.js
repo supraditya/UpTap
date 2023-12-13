@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchUserData } from "../app/userSlice";
+import { fetchUserData, setUserstatus } from "../app/userSlice";
 
 import {
   View,
@@ -66,6 +66,7 @@ const PeopleHome = ({ navigation }) => {
           onPress={async () => {
             try {
               await signOut();
+              dispatch(setUserstatus('loading'));
               navigation.navigate("Login"); // Navigate to the "Login" screen
             } catch (error) {
               Alert.alert("Sign Out Error", error.message, [{ text: "OK" }]);
@@ -85,7 +86,7 @@ const PeopleHome = ({ navigation }) => {
         {/* Your contacts: {currentAuthUser && userData.theirCards} */}
         Your contacts:
       </Text>
-      {currentAuthUser &&
+      {currentAuthUser && userStatus==='succeeded' &&
         userData.their_cards_data_list.map((card, index) => (
           <TouchableOpacity
             onPress={() => theirCardViewHandler(card)}
