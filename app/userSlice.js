@@ -101,6 +101,14 @@ const userSlice = createSlice({
         ];
       }
     },
+    updateUserMyCardDataList: (state, action) => {
+      const cardIndex = state.userData.my_cards_data_list.findIndex(
+        (card_data) => card_data.id === action.payload.id
+      );
+      if (cardIndex !== -1) {
+        state.userData.my_cards_data_list[cardIndex] = {...action.payload.updatedCard}
+      }
+    },
     setUserstatus: (state, action) => {
       state.userStatus = action.payload;
     },
@@ -127,6 +135,7 @@ export const {
   addUserTheirCardDataList,
   addUserMyCards,
   addUserMyCardDataList,
+  updateUserMyCardDataList,
 } = userSlice.actions;
 
 export default userSlice.reducer;

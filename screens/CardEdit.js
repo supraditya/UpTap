@@ -23,6 +23,7 @@ import {
   addUserMyCardDataList,
   addUserMyCards,
   fetchUserData,
+  updateUserMyCardDataList,
 } from "../app/userSlice";
 
 import { db } from "../app/firebase";
@@ -47,7 +48,8 @@ function CardEditScreen({ navigation, route }) {
   const [isCreate, setIsCreate] = useState(!card.firstName);
   const updateCard = async (updatedCard) => {
     // dispatch(addUserMyCards(updatedCard));
-    await setDoc(doc(db, "users", currentAuthUser.uid), updatedCard);
+    dispatch(updateUserMyCardDataList({id:card.id, updatedCard:updatedCard}));
+    // await setDoc(doc(db, "cards", card.id), updatedCard);
     navigation.navigate("MyCardScreen", { card: updatedCard });
   };
   const addCard = async (newCard) => {
