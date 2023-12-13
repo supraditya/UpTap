@@ -9,7 +9,8 @@ import {
   addUserMyCards,
   fetchUserData,
 } from "../app/userSlice";
-import { db } from "../app/firebase";
+// import { db } from "../app/firebase";
+import { db } from '../app/authManager';
 import { getAuthUser } from "../app/authManager";
 
 function CardEditScreen({ navigation, route }) {

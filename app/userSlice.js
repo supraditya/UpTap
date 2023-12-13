@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { db } from "./firebase";
+// import { db } from "./firebase";
+import { db } from "../app/authManager";
 import { doc, getDoc, getDocs, collection, query } from "firebase/firestore";
 import { useDispatch } from "react-redux";
 import { getAuthUser } from "../app/authManager";

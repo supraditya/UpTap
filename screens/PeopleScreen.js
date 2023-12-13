@@ -17,14 +17,14 @@ const PeopleScreen = ({navigation}) => {
 
 
   return (
-    <NavigationContainer independent={true}>
+    // <NavigationContainer independent={true}>
     <Stack.Navigator initialRouteName='PeopleHome' 
       screenOptions={{ headerShown: false }}>
       <Stack.Screen name='PeopleHome' component={PeopleHome}/>
       <Stack.Screen name='QRScan' component={QRScanScreen}/>
       <Stack.Screen name='TheirCardScreen' component={TheirCardScreen}/>
     </Stack.Navigator>
-  </NavigationContainer>
+  // </NavigationContainer>
   );
 };
 

@@ -8,9 +8,16 @@ import {
   getReactNativePersistence,
   onAuthStateChanged,
 } from "firebase/auth";
+import { initializeApp } from "firebase/app";
 import ReactNativeAsyncStorage from "@react-native-async-storage/async-storage";
-import app from "./firebase";
+import { getFirestore } from "firebase/firestore";
+import { firebaseConfig } from "../Secrets";
 
+const app = initializeApp(firebaseConfig);
+
+const db = getFirestore(app);
+// import { firebaseConfig } from "../Secrets";
+// let app = initializeApp(firebaseConfig);
 let auth;
 
 try {
@@ -61,4 +68,12 @@ const subscribeToAuthChanges = (navigation) => {
   }
 };
 
-export { signIn, signOut, signUp, getAuthUser, subscribeToAuthChanges };
+export {
+  app,
+  db,
+  signIn,
+  signOut,
+  signUp,
+  getAuthUser,
+  subscribeToAuthChanges,
+};

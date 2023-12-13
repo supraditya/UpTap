@@ -3,16 +3,16 @@ import { StyleSheet, Text, View } from "react-native";
 import PostLoginWrapper from "./screens/PostLoginWrapper";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { LogBox } from 'react-native';
-LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
-LogBox.ignoreAllLogs();//Ignore all log notifications
+// import { LogBox } from 'react-native';
+// LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+// LogBox.ignoreAllLogs();//Ignore all log notifications
 
 
 // Redux Toolkit imports
 import store from "./app/store";
 import { Provider } from "react-redux";
 import LoginScreen from "./screens/LoginScreen";
-import QRScanScreen from "./screens/QRScanScreen";
+// import QRScanScreen from "./screens/QRScanScreen";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -20,11 +20,10 @@ export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-      <Stack.Navigator initialRouteName='Login' 
+      <Stack.Navigator initialRouteName='Login'
         screenOptions={{ headerShown: false }}>
         <Stack.Screen name='Login' component={LoginScreen}/>
         <Stack.Screen name='PostLogin' component={PostLoginWrapper}/>
-        <Stack.Screen name='QRScan' component={QRScanScreen}/>
       </Stack.Navigator>
     </NavigationContainer>
     </Provider>

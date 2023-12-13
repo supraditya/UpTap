@@ -12,7 +12,8 @@ import {
   addUserTheirCardDataList,
 } from "../app/userSlice";
 
-import { db } from "../app/firebase";
+// import { db } from "../app/firebase";
+import { db } from "../app/authManager";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { getAuthUser } from "../app/authManager";
 
