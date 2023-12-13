@@ -9,7 +9,6 @@ import {
 
 import { Button } from "@rneui/themed";
 import { useDispatch, useSelector } from "react-redux";
-import QRCode from "react-native-qrcode-svg";
 
 import { getAuthUser } from "../app/firebase";
 import { colorCalculate } from "./PeopleHome";
@@ -39,23 +38,15 @@ const MeHome = ({ navigation }) => {
       {currentAuthUser &&
         userData.my_cards_data_list.map((card, index) => {
           return (
-            <View
-              style={{ ...styles.myCard, backgroundColor: colorCalculate() }}
+            <TouchableOpacity
+              onPress={() => meCardPressHandler(card)}
               key={index}
+              style={{ ...styles.myCard, backgroundColor: colorCalculate() }}
             >
-              <TouchableOpacity
-                onPress={() => meCardPressHandler(card)}
-                key={card.id}
-              >
-                <View>
-                  {/* <Text style={{ fontSize: 32 }}>{card.nameOfCard}</Text> */}
-                  <Text style={styles.cardTextHeaderStyle}>
-                    My {card.nameOfCard} Card
-                  </Text>
-                  {/* <Text style={styles.cardTextStyle}>Works at {card.company}</Text> */}
-                </View>
-              </TouchableOpacity>
-            </View>
+              <Text style={styles.cardTextHeaderStyle}>
+                My {card.nameOfCard} Card
+              </Text>
+            </TouchableOpacity>
           );
         })}
     </View>

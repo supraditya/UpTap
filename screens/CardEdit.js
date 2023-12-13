@@ -1,17 +1,35 @@
-import { ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { Icon, Input } from '@rneui/themed';
-import { useSelector, useDispatch } from 'react-redux';
-import CardDetail from '../components/CardDetail';
-import { useState } from 'react';
-import { doc, getDoc, setDoc, addDoc, updateDoc, collection, query } from "firebase/firestore";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { Icon, Input } from "@rneui/themed";
+import { useSelector, useDispatch } from "react-redux";
+import CardDetail from "../components/CardDetail";
+import { useState } from "react";
+import {
+  doc,
+  getDoc,
+  setDoc,
+  addDoc,
+  updateDoc,
+  collection,
+  query,
+} from "firebase/firestore";
 import {
   addUserMyCardDataList,
   addUserMyCards,
   fetchUserData,
 } from "../app/userSlice";
 
-import { db } from '../app/firebase';
+import { db } from "../app/firebase";
 import { getAuthUser } from "../app/firebase";
+
+import "react-native-get-random-values";
+import { v4 as uuidv4 } from "uuid";
 
 function CardEditScreen({ navigation, route }) {
   const dispatch = useDispatch();
@@ -26,39 +44,40 @@ function CardEditScreen({ navigation, route }) {
   const [lastNameInput, setLastNameInput] = useState(card.lastName || "");
   const [emailInput, setEmailInput] = useState(card.email || "");
   const [cardNameInput, setCardNameInput] = useState(card.nameOfCard || "");
-  const [isCreate, setIsCreate] = useState(!card.firstName)
+  const [isCreate, setIsCreate] = useState(!card.firstName);
   const updateCard = async (updatedCard) => {
     // dispatch(addUserMyCards(updatedCard));
-    await setDoc(doc(db, 'users', currentAuthUser.uid), updatedCard);
-    navigation.navigate('MyCardScreen',
-      { card: updatedCard }
-    );
-  }
+    await setDoc(doc(db, "users", currentAuthUser.uid), updatedCard);
+    navigation.navigate("MyCardScreen", { card: updatedCard });
+  };
   const addCard = async (newCard) => {
-    dispatch(addUserMyCards(newCard));
+    const newCardId = uuidv4();
+    dispatch(addUserMyCards(newCardId));
     dispatch(addUserMyCardDataList(newCard));
-    await addDoc(collection(db, "cards"), newCard);
+    const { their_cards_data_list, my_cards_data_list, ...pruned_user_data } =
+      userData;
+      pruned_user_data.myCards=[...pruned_user_data.myCards, newCardId];
+    try {
+      await setDoc(doc(db, "cards", newCardId), newCard);
+      await setDoc(doc(db, "users", currentAuthUser.uid), pruned_user_data);
+    } catch (error) {
+      console.log(error);
+    }
     navigation.goBack();
-  }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <TouchableOpacity
-            onPress={() => navigation.goBack()}
-          >
-            <Text style={styles.headerText}>
-              Back
-            </Text>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Text style={styles.headerText}>Back</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.headerCenter}>
-          <Text style={styles.headerText}>
-            Edit Card
-          </Text>
+          <Text style={styles.headerText}>Edit Card</Text>
         </View>
         <View style={styles.headerRight}>
-          {isCreate ?
+          {isCreate ? (
             <TouchableOpacity
               onPress={() => {
                 addCard({
@@ -66,14 +85,12 @@ function CardEditScreen({ navigation, route }) {
                   lastName: lastNameInput,
                   email: emailInput,
                   nameOfCard: cardNameInput,
-                })
+                });
               }}
             >
-              <Text style={[styles.headerText, styles.highlight]}>
-                Create
-              </Text>
+              <Text style={[styles.headerText, styles.highlight]}>Create</Text>
             </TouchableOpacity>
-            :
+          ) : (
             <TouchableOpacity
               onPress={() => {
                 updateCard({
@@ -81,19 +98,16 @@ function CardEditScreen({ navigation, route }) {
                   lastName: lastNameInput,
                   email: emailInput,
                   nameOfCard: cardNameInput,
-                })
+                });
               }}
             >
-              <Text style={[styles.headerText, styles.highlight]}>
-                Save
-              </Text>
+              <Text style={[styles.headerText, styles.highlight]}>Save</Text>
             </TouchableOpacity>
-          }
+          )}
         </View>
       </View>
 
       <ScrollView style={styles.body}>
-
         <View style={styles.entryWithLabel}>
           <View>
             <View style={{ flex: 0.4 }}></View>
@@ -102,9 +116,9 @@ function CardEditScreen({ navigation, route }) {
           <View>
             <TextInput
               style={styles.textInput}
-              placeholder='First Name'
+              placeholder="First Name"
               value={firstNameInput}
-              onChangeText={text => setFirstNameInput(text)}
+              onChangeText={(text) => setFirstNameInput(text)}
             />
           </View>
         </View>
@@ -117,9 +131,9 @@ function CardEditScreen({ navigation, route }) {
           <View>
             <TextInput
               style={styles.textInput}
-              placeholder='Last Name'
+              placeholder="Last Name"
               value={lastNameInput}
-              onChangeText={text => setLastNameInput(text)}
+              onChangeText={(text) => setLastNameInput(text)}
             />
           </View>
         </View>
@@ -132,9 +146,9 @@ function CardEditScreen({ navigation, route }) {
           <View>
             <TextInput
               style={styles.textInput}
-              placeholder='Card Name'
+              placeholder="Card Name"
               value={cardNameInput}
-              onChangeText={text => setCardNameInput(text)}
+              onChangeText={(text) => setCardNameInput(text)}
             />
           </View>
         </View>
@@ -147,9 +161,9 @@ function CardEditScreen({ navigation, route }) {
           <View>
             <TextInput
               style={styles.textInput}
-              placeholder='Email'
+              placeholder="Email"
               value={emailInput}
-              onChangeText={text => setEmailInput(text)}
+              onChangeText={(text) => setEmailInput(text)}
             />
           </View>
         </View>
@@ -167,39 +181,39 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 0.85,
-    backgroundColor: 'white',
-    width: '100%',
-    padding: '5%',
+    backgroundColor: "white",
+    width: "100%",
+    padding: "5%",
   },
   entryWithLabel: {
-    padding: '2%'
+    padding: "2%",
   },
   header: {
     flex: 0.15,
-    flexDirection: 'row',
-    backgroundColor: 'lightblue',
-    alignItems: 'flex-end',
-    justifyContent: 'space-between',
-    width: '100%',
-    padding: '5%'
+    flexDirection: "row",
+    backgroundColor: "lightblue",
+    alignItems: "flex-end",
+    justifyContent: "space-between",
+    width: "100%",
+    padding: "5%",
   },
   headerLeft: {
     flex: 0.3,
-    alignItems: 'flex-start',
-    justifyContent: 'center',
+    alignItems: "flex-start",
+    justifyContent: "center",
   },
   headerCenter: {
     flex: 0.4,
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: "center",
+    justifyContent: "center",
   },
   headerRight: {
     flex: 0.3,
-    alignItems: 'flex-end',
-    justifyContent: 'center',
+    alignItems: "flex-end",
+    justifyContent: "center",
   },
   headerText: {
-    fontSize: 20
+    fontSize: 20,
   },
 });
 

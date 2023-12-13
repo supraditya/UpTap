@@ -9,7 +9,7 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import { Button } from "@rneui/themed";
+import { Button, Icon } from "@rneui/themed";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getAuthUser, signOut } from "../app/firebase";
@@ -55,12 +55,31 @@ const PeopleHome = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.appHeader}>
+        <View style={styles.userContainer}>
+          <Icon name="user-circle" type="font-awesome"></Icon>
+          <Text style={{ margin: 14 }}>
+            {currentAuthUser && currentAuthUser.email}
+          </Text>
+        </View>
+        <Button
+          onPress={async () => {
+            try {
+              await signOut();
+              navigation.navigate("Login"); // Navigate to the "Login" screen
+            } catch (error) {
+              Alert.alert("Sign Out Error", error.message, [{ text: "OK" }]);
+            }
+          }}
+          color="error"
+        >
+          Sign out!
+        </Button>
+      </View>
+
       <Button onPress={() => navigation.navigate("QRScan")}>
         Scan QR Code
       </Button>
-      <Text style={{ margin: 14 }}>
-        Welcome {currentAuthUser && currentAuthUser.displayName}!
-      </Text>
 
       <Text style={styles.title}>
         {/* Your contacts: {currentAuthUser && userData.theirCards} */}
@@ -91,18 +110,6 @@ const PeopleHome = ({ navigation }) => {
             </View>
           </TouchableOpacity>
         ))}
-      <Button
-        onPress={async () => {
-          try {
-            await signOut();
-            navigation.navigate("Login"); // Navigate to the "Login" screen
-          } catch (error) {
-            Alert.alert("Sign Out Error", error.message, [{ text: "OK" }]);
-          }
-        }}
-      >
-        Sign out!
-      </Button>
     </View>
   );
 };
@@ -111,8 +118,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+    paddingTop: "10%",
+  },
+  appHeader: {
+    flexDirection: "row",
+    // borderWidth: 2,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: "4%",
+    paddingVertical: '2%',
+  },
+  userContainer:{
+    flexDirection: "row",
+    alignItems: 'center',
   },
   bodyContainer: {
     flex: 0.5,

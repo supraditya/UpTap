@@ -75,19 +75,6 @@ const userSlice = createSlice({
     userStatus: "idle",
   },
   reducers: {
-    loadUsers: (state, action) => {
-      state.userData = { ...action.payload };
-      // taken from week 10 Reducer.js
-      state.users = { ...action.payload.users };
-      state.userStatus = "succeeded";
-    },
-
-    addUsers: (state, action) => {
-      state.userData = { ...action.payload };
-      // taken from week 10 Reducer.js
-      state.users = state.users.concat({ ...action.payload.users });
-      state.userStatus = "succeeded";
-    },
     addUserTheirCards: (state, action) => {
       if (!state.userData.theirCards.includes(action.payload)) {
         state.userData.theirCards.push(action.payload);
@@ -132,8 +119,6 @@ const userSlice = createSlice({
 });
 
 export const {
-  loadUsers,
-  addUsers,
   addUserTheirCards,
   addUserTheirCardDataList,
   addUserMyCards,

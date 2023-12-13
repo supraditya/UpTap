@@ -89,7 +89,7 @@ function SignupBox({ navigation }) {
         // key: user.uid,
       };
       await setDoc(doc(db, "users", user.uid), userToAdd);
-      dispatch(addUsers(...userToAdd));
+
     };
   };
   // --------------------------------------
