@@ -47,10 +47,10 @@ function CardEditScreen({ navigation, route }) {
   const [cardNameInput, setCardNameInput] = useState(card.nameOfCard || "");
   const [isCreate, setIsCreate] = useState(!card.firstName);
   const updateCard = async (updatedCard) => {
-    // dispatch(addUserMyCards(updatedCard));
     dispatch(updateUserMyCardDataList({id:card.id, updatedCard:updatedCard}));
-    // await setDoc(doc(db, "cards", card.id), updatedCard);
-    navigation.navigate("MyCardScreen", { card: updatedCard });
+
+    await setDoc(doc(db, "cards", card.id), updatedCard);
+    navigation.navigate("MyCardScreen", { card: {id:card.id, ...updatedCard} });
   };
   const addCard = async (newCard) => {
     const newCardId = uuidv4();

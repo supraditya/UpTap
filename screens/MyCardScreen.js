@@ -5,8 +5,8 @@ import QRCode from "react-native-qrcode-svg";
 import { colorCalculate } from "./PeopleHome";
 
 const MyCardScreen = ({ route, navigation }) => {
+
   const card = route.params.card;
-  // console.log(card)
   return (
     <View style={styles.container}>
       <TouchableOpacity

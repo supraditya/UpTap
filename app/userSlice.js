@@ -105,8 +105,9 @@ const userSlice = createSlice({
       const cardIndex = state.userData.my_cards_data_list.findIndex(
         (card_data) => card_data.id === action.payload.id
       );
+      // console.log(state.userData.my_cards_data_list)
       if (cardIndex !== -1) {
-        state.userData.my_cards_data_list[cardIndex] = {...action.payload.updatedCard}
+        state.userData.my_cards_data_list[cardIndex] = {...action.payload.updatedCard, id:action.payload.id}
       }
     },
     setUserstatus: (state, action) => {
