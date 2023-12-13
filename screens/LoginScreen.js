@@ -4,11 +4,11 @@ import { getAuth } from "firebase/auth";
 // import { getApps, initializeApp } from 'firebase/app';
 import { Button } from "@rneui/themed";
 import { useDispatch } from "react-redux";
-import { signIn, signUp, subscribeToAuthChanges, app, db } from "../app/authManager";
+import { signIn, signUp, subscribeToAuthChanges, app, db } from "../app/firebase";
 // import app from "../app/firebase";
 import { addUsers } from "../app/userSlice";
 import { setDoc, doc } from "firebase/firestore";
-// import { db } from "../app/firebase";
+
 
 const auth = getAuth(app);
 

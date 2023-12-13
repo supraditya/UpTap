@@ -9,9 +9,9 @@ import {
   addUserMyCards,
   fetchUserData,
 } from "../app/userSlice";
-// import { db } from "../app/firebase";
-import { db } from '../app/authManager';
-import { getAuthUser } from "../app/authManager";
+
+import { db } from '../app/firebase';
+import { getAuthUser } from "../app/firebase";
 
 function CardEditScreen({ navigation, route }) {
   const dispatch = useDispatch();

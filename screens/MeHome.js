@@ -11,7 +11,7 @@ import { Button } from "@rneui/themed";
 import { useDispatch, useSelector } from "react-redux";
 import QRCode from "react-native-qrcode-svg";
 
-import { getAuthUser } from "../app/authManager";
+import { getAuthUser } from "../app/firebase";
 import { colorCalculate } from "./PeopleHome";
 
 const MeHome = ({ navigation }) => {

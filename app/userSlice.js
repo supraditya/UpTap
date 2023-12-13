@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 // import { db } from "./firebase";
-import { db } from "../app/authManager";
+import { db } from "./firebase";
 import { doc, getDoc, getDocs, collection, query } from "firebase/firestore";
 import { useDispatch } from "react-redux";
-import { getAuthUser } from "../app/authManager";
+import { getAuthUser } from "./firebase";
 
 export const fetchUserData = createAsyncThunk(
   "users/fetchUserData",

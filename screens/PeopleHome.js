@@ -12,7 +12,7 @@ import {
 import { Button } from "@rneui/themed";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getAuthUser, signOut } from "../app/authManager";
+import { getAuthUser, signOut } from "../app/firebase";
 
 // import TheirCardScreen from "./TheirCardScreen";
 export const colorCalculate = () => {
@@ -51,9 +51,6 @@ const PeopleHome = ({ navigation }) => {
 
   useEffect(() => {
     dispatch(fetchUserData());
-    // if (!currentAuthUser) {
-    //   navigation.navigate("Login");
-    // }
   }, [dispatch]);
 
   return (

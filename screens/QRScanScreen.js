@@ -12,10 +12,10 @@ import {
   addUserTheirCardDataList,
 } from "../app/userSlice";
 
-// import { db } from "../app/firebase";
-import { db } from "../app/authManager";
+
+import { db } from "../app/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { getAuthUser } from "../app/authManager";
+import { getAuthUser } from "../app/firebase";
 
 const QRScanScreen = ({ navigation }) => {
   const dispatch = useDispatch();
