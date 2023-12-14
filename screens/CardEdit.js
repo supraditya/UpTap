@@ -47,10 +47,14 @@ function CardEditScreen({ navigation, route }) {
   const [cardNameInput, setCardNameInput] = useState(card.nameOfCard || "");
   const [isCreate, setIsCreate] = useState(!card.firstName);
   const updateCard = async (updatedCard) => {
-    dispatch(updateUserMyCardDataList({id:card.id, updatedCard:updatedCard}));
+    dispatch(
+      updateUserMyCardDataList({ id: card.id, updatedCard: updatedCard })
+    );
 
     await setDoc(doc(db, "cards", card.id), updatedCard);
-    navigation.navigate("MyCardScreen", { card: {id:card.id, ...updatedCard} });
+    navigation.navigate("MyCardScreen", {
+      card: { id: card.id, ...updatedCard },
+    });
   };
   const addCard = async (newCard) => {
     const newCardId = uuidv4();
@@ -58,7 +62,7 @@ function CardEditScreen({ navigation, route }) {
     dispatch(addUserMyCardDataList(newCard));
     const { their_cards_data_list, my_cards_data_list, ...pruned_user_data } =
       userData;
-      pruned_user_data.myCards=[...pruned_user_data.myCards, newCardId];
+    pruned_user_data.myCards = [...pruned_user_data.myCards, newCardId];
     try {
       await setDoc(doc(db, "cards", newCardId), newCard);
       await setDoc(doc(db, "users", currentAuthUser.uid), pruned_user_data);
@@ -69,15 +73,18 @@ function CardEditScreen({ navigation, route }) {
   };
   return (
     <View style={styles.container}>
+      <View style={styles.headerCenter}>
+        <Text style={styles.headerTextBold}>
+          {isCreate ? "Create" : "Edit"} Card
+        </Text>
+      </View>
       <View style={styles.header}>
         <View style={styles.headerLeft}>
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Text style={styles.headerText}>Back</Text>
           </TouchableOpacity>
         </View>
-        <View style={styles.headerCenter}>
-          <Text style={styles.headerText}>Edit Card</Text>
-        </View>
+
         <View style={styles.headerRight}>
           {isCreate ? (
             <TouchableOpacity
@@ -191,9 +198,9 @@ const styles = StyleSheet.create({
     padding: "2%",
   },
   header: {
-    flex: 0.15,
+    // flex: 0.15,
     flexDirection: "row",
-    backgroundColor: "lightblue",
+    // backgroundColor: "lightgreen",
     alignItems: "flex-end",
     justifyContent: "space-between",
     width: "100%",
@@ -205,7 +212,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   headerCenter: {
-    flex: 0.4,
+    // flex: 0.1,
+    paddingTop: "4%",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -216,6 +224,11 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 20,
+    // fontWeight: "800",
+  },
+  headerTextBold: {
+    fontSize: 20,
+    fontWeight: "800",
   },
 });
 

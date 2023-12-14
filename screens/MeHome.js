@@ -26,6 +26,7 @@ const MeHome = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>My Cards</Text>
       <View style={styles.cardList}>
         {currentAuthUser &&
           userStatus === "succeeded" &&
@@ -62,8 +63,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
-    alignItems: "center",
+    // alignItems: "center",
     justifyContent: "center",
+  },
+  title: {
+    fontSize: 25,
+    paddingHorizontal: '6%'
   },
   cardList: {
     flex: 0.8,
@@ -86,7 +91,7 @@ const styles = StyleSheet.create({
     // backgroundColor: colorCalculate(),
     flex: 0.2,
     borderRadius: 18,
-    marginVertical: "5%",
+    marginVertical: "2%",
     justifyContent: "center",
     alignItems: "center",
     width: "90%",

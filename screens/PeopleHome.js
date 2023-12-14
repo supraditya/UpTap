@@ -113,13 +113,15 @@ const styles = StyleSheet.create({
   cardContainer: {
     flex: 0.1,
     justifyContent: "space-around",
+    alignItems:'center',
     flexDirection: "row",
     width: "90%",
     alignItems: "center",
     backgroundColor: "#F7C6C8",
     padding: "5%",
     borderRadius: 15,
-    margin: 14,
+    marginLeft: 16,
+    marginVertical: 8,
   },
   cardText: {
     alignItems: "flex-start",
