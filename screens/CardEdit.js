@@ -37,7 +37,7 @@ function CardEditScreen({ navigation, route }) {
   const [lastNameInput, setLastNameInput] = useState(card.lastName || "");
   const [emailInput, setEmailInput] = useState(card.email || "");
   const [cardNameInput, setCardNameInput] = useState(card.nameOfCard || "");
-  const [isCreate, setIsCreate] = useState(!card.firstName);
+  const [isCreate, setIsCreate] = useState(!card.id);
   const updateCard = async (updatedCard) => {
     dispatch(
       updateUserMyCardDataList({ id: card.id, updatedCard: updatedCard })
