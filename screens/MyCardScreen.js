@@ -1,11 +1,38 @@
 import { View, Text, StyleSheet, Alert, TouchableOpacity } from "react-native";
 
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { getAuthUser } from "../app/firebase";
 import QRCode from "react-native-qrcode-svg";
 import { colorCalculate } from "./PeopleHome";
+import { deleteUserMyCard } from "../app/userSlice";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../app/firebase";
+
+import { Button } from "@rneui/themed";
 
 const MyCardScreen = ({ route, navigation }) => {
   const card = route.params.card;
+  const { userData, userStatus, userError } = useSelector(
+    (state) => state.user
+  );
+  const currentAuthUser=getAuthUser();
+  const dispatch=useDispatch();
+  
+  const myCardDeleteHandler = async () => {
+    dispatch(deleteUserMyCard(card.id));
+    const { their_cards_data_list, my_cards_data_list, ...pruned_user_data } =
+      userData;
+    let updatedMyCards = [...pruned_user_data.myCards];
+    const indexOfMyCardRemoved = pruned_user_data.myCards.indexOf(
+      card.id
+    );
+    updatedMyCards.splice(indexOfMyCardRemoved, 1);
+    await setDoc(doc(db, "users", currentAuthUser.uid), {
+      ...pruned_user_data,
+      myCards: updatedMyCards,
+    });
+    navigation.goBack();
+  };
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -45,6 +72,7 @@ const MyCardScreen = ({ route, navigation }) => {
       >
         <Text style={styles.editButtonText}>Edit</Text>
       </TouchableOpacity>
+      <Button color="error" onPress={myCardDeleteHandler}>Delete Card</Button>
     </View>
   );
 };
