@@ -107,11 +107,23 @@ const userSlice = createSlice({
       );
       // console.log(state.userData.my_cards_data_list)
       if (cardIndex !== -1) {
-        state.userData.my_cards_data_list[cardIndex] = {...action.payload.updatedCard, id:action.payload.id}
+        state.userData.my_cards_data_list[cardIndex] = {
+          ...action.payload.updatedCard,
+          id: action.payload.id,
+        };
       }
     },
     setUserstatus: (state, action) => {
       state.userStatus = action.payload;
+    },
+    deleteUserTheirCard: (state, action) => {
+      const cardIndex = state.userData.theirCards.findIndex(
+        (card_id) => card_id === action.payload
+      );
+      if (cardIndex !== -1) {
+        state.userData.theirCards.splice(cardIndex, 1)
+        state.userData.their_cards_data_list.splice(cardIndex, 1)
+      }
     },
   },
   extraReducers: (builder) => {
@@ -137,6 +149,7 @@ export const {
   addUserMyCards,
   addUserMyCardDataList,
   updateUserMyCardDataList,
+  deleteUserTheirCard,
 } = userSlice.actions;
 
 export default userSlice.reducer;

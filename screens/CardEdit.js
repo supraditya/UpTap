@@ -6,23 +6,15 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Icon, Input } from "@rneui/themed";
 import { useSelector, useDispatch } from "react-redux";
-import CardDetail from "../components/CardDetail";
 import { useState } from "react";
 import {
   doc,
-  getDoc,
   setDoc,
-  addDoc,
-  updateDoc,
-  collection,
-  query,
 } from "firebase/firestore";
 import {
   addUserMyCardDataList,
   addUserMyCards,
-  fetchUserData,
   updateUserMyCardDataList,
 } from "../app/userSlice";
 
