@@ -6,6 +6,7 @@ import { Icon } from "@rneui/themed";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import PeopleScreen from "./PeopleScreen";
 import MeScreen from "./MeScreen";
+import AppHeader from "../components/AppHeader";
 
 const Tab = createBottomTabNavigator();
 
@@ -13,13 +14,14 @@ const PostLoginWrapper = ({ navigation }) => {
   return (
     <Tab.Navigator
       screenOptions={{
-        headerShown: false,
+        // headerShown: false,
       }}
     >
       <Tab.Screen
         name="People"
         options={{
           tabBarIcon: ({ color }) => <Icon name="groups" color={color} />,
+          headerTitle: () => <AppHeader navigation={navigation} />
         }}
         component={PeopleScreen}
       />
@@ -27,6 +29,7 @@ const PostLoginWrapper = ({ navigation }) => {
         name="Me"
         options={{
           tabBarIcon: ({ color }) => <Icon name="contacts" color={color} />,
+          headerTitle: () => <AppHeader navigation={navigation} />
         }}
         component={MeScreen}
       />

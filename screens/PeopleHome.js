@@ -9,10 +9,10 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import { Button, Icon } from "@rneui/themed";
+import { Button } from "@rneui/themed";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getAuthUser, signOut } from "../app/firebase";
+import { getAuthUser} from "../app/firebase";
 
 // import TheirCardScreen from "./TheirCardScreen";
 export const colorCalculate = () => {
@@ -55,7 +55,7 @@ const PeopleHome = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.appHeader}>
+      {/* <View style={styles.appHeader}>
         <View style={styles.userContainer}>
           <Icon name="user-circle" type="font-awesome"></Icon>
           <Text style={{ margin: 14 }}>
@@ -76,7 +76,7 @@ const PeopleHome = ({ navigation }) => {
         >
           Sign out!
         </Button>
-      </View>
+      </View> */}
 
       <Button onPress={() => navigation.navigate("QRScan")}>
         Scan QR Code

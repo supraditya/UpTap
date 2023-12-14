@@ -60,6 +60,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  editButtonText:{
+    color: '#FFF'
+  },
   bodyContainer: {
     flex: 0.5,
     justifyContent: "center",
