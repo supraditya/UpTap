@@ -5,7 +5,6 @@ import QRCode from "react-native-qrcode-svg";
 import { colorCalculate } from "./PeopleHome";
 
 const MyCardScreen = ({ route, navigation }) => {
-
   const card = route.params.card;
   return (
     <View style={styles.container}>
@@ -19,7 +18,9 @@ const MyCardScreen = ({ route, navigation }) => {
       </TouchableOpacity>
 
       <View style={styles.cardContainer}>
-        <QRCode value={card.id} size={150} />
+        <View style={styles.QRContainer}>
+          <QRCode value={card.id} size={150} />
+        </View>
         {Object.entries(card).map(([keyName, value], index) => {
           if (
             keyName !== "firstName" &&
@@ -44,15 +45,6 @@ const MyCardScreen = ({ route, navigation }) => {
       >
         <Text style={styles.editButtonText}>Edit</Text>
       </TouchableOpacity>
-      {/* <TouchableOpacity
-        onPress={() =>
-          navigation.navigate("CardEditScreen", {
-            card: {},
-          })
-        }
-      >
-        <Text style={styles.editButtonText}>Create Card</Text>
-      </TouchableOpacity> */}
     </View>
   );
 };
@@ -72,6 +64,13 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "blue",
     color: "white",
+  },
+  QRContainer:{
+    backgroundColor: '#FFF',
+    // borderWidth: 2,
+    padding: '4%',
+    marginBottom: '5%',
+    borderRadius: 10,
   },
   theirCard: {
     backgroundColor: colorCalculate(),
@@ -102,12 +101,12 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   backButton: {
-    width: '85%',
+    width: "85%",
     // fontSize: 24,
   },
   backButtonText: {
     fontSize: 24,
-  }
+  },
 });
 
 export default MyCardScreen;

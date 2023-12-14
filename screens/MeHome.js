@@ -26,29 +26,34 @@ const MeHome = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.cardList}>
+        {currentAuthUser &&
+          userStatus === "succeeded" &&
+          userData.my_cards_data_list.map((card, index) => {
+            return (
+              <TouchableOpacity
+                onPress={() => meCardPressHandler(card)}
+                key={index}
+                style={{ ...styles.myCard, backgroundColor: colorCalculate() }}
+              >
+                <Text style={styles.cardTextHeaderStyle}>
+                  My {card.nameOfCard} Card
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
+      </View>
       <Button
+        // buttonStyle={{ width: "60%", justifyContent: "center" }}
+        containerStyle={{ justifyContent: "center", alignItems: "center" }}
         onPress={() =>
           navigation.navigate("CardEditScreen", {
             card: {},
           })
         }
       >
-        <Text style={styles.editButtonText}>Create Card</Text>
+        Create Card
       </Button>
-      {currentAuthUser && userStatus==='succeeded' &&
-        userData.my_cards_data_list.map((card, index) => {
-          return (
-            <TouchableOpacity
-              onPress={() => meCardPressHandler(card)}
-              key={index}
-              style={{ ...styles.myCard, backgroundColor: colorCalculate() }}
-            >
-              <Text style={styles.cardTextHeaderStyle}>
-                My {card.nameOfCard} Card
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
     </View>
   );
 };
@@ -60,18 +65,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  editButtonText:{
-    color: '#FFF'
+  cardList: {
+    flex: 0.8,
+    width: "100%",
+    alignItems: "center",
   },
+  // editButtonText: {
+  //   color: "#FFF",
+  // },
   bodyContainer: {
     flex: 0.5,
     justifyContent: "center",
     alignItems: "center",
   },
-  button: {
-    backgroundColor: "blue",
-    color: "white",
-  },
+  // button: {
+  //   backgroundColor: "blue",
+  //   color: "white",
+  // },
   myCard: {
     // backgroundColor: colorCalculate(),
     flex: 0.2,
