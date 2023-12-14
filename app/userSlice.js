@@ -122,13 +122,11 @@ const userSlice = createSlice({
       );
       if (cardIndex !== -1) {
         state.userData.theirCards.splice(cardIndex, 1)
-        // state.userData.their_cards_data_list.splice(cardIndex, 1)
       }
       const cardDataIndex = state.userData.their_cards_data_list.findIndex(
         (card) => card.id === action.payload
       );
       if (cardDataIndex !== -1) {
-        // state.userData.theirCards.splice(cardDataIndex, 1)
         state.userData.their_cards_data_list.splice(cardDataIndex, 1)
       }
     },
@@ -138,15 +136,11 @@ const userSlice = createSlice({
       );
       if (cardIndex !== -1) {
         state.userData.myCards.splice(cardIndex, 1)
-        // console.log(state.userData.my_cards_data_list)
-        // state.userData.my_cards_data_list.splice(cardIndex, 1)
-        // console.log(state.userData.my_cards_data_list)
       }
       const cardDataIndex = state.userData.my_cards_data_list.findIndex(
         (card) => card.id === action.payload
       );
       if (cardDataIndex !== -1) {
-        // state.userData.theirCards.splice(cardDataIndex, 1)
         state.userData.my_cards_data_list.splice(cardDataIndex, 1)
       }
     },

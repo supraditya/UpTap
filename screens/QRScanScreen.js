@@ -81,6 +81,7 @@ const QRScanScreen = ({ navigation }) => {
       setVisible(true);
     } else {
       // docSnap.data() will be undefined in this case
+      console.log(card_id)
       alert("Invalid card ID. Try again with a valid QR from the UpTap App!");
       setScanAgain(true);
       return;

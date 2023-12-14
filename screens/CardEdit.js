@@ -51,7 +51,7 @@ function CardEditScreen({ navigation, route }) {
   const addCard = async (newCard) => {
     const newCardId = uuidv4();
     dispatch(addUserMyCards(newCardId));
-    dispatch(addUserMyCardDataList(newCard));
+    dispatch(addUserMyCardDataList({id:newCardId, ...newCard}));
     const { their_cards_data_list, my_cards_data_list, ...pruned_user_data } =
       userData;
     pruned_user_data.myCards = [...pruned_user_data.myCards, newCardId];
